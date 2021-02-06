@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 
 export const NavbarContainer = styled.div`
-border-bottom: 1px solid rgb(214, 214, 214);;
+border-bottom: 1px solid rgb(240, 240, 240);
 `;
 
 export const NavbarWrapper = styled.div`
@@ -30,12 +30,13 @@ align-items: center;
 margin-right: 20px;
 `;
 export const AuthButton = styled.button`
-padding: 5px;
-background: #753ff6;
+padding: 8px;
+background: #666ee8;
 border: none;
-color: white;
-height: 5vh;
-min-width: 100px;
 border-radius: 5px;
+color: white;
+height: auto;
+width: 80px;
 font-size: 14px;
+cursor: pointer;
 `;

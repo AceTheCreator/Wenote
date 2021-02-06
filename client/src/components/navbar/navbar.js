@@ -10,11 +10,13 @@ export default function navbar() {
             <NavbarContainer>
                 <NavbarWrapper>
                     <LogoWrapper>
-                    <img src={logo} alt="hooknote-logo" /> <span style={{ fontWeight: 'bold' }}>ooknote</span>
+                    <img style={{
+                      transform: 'rotate(180deg)'
+                    }} src={logo} alt="hooknote-logo" /> <span style={{ fontWeight: 'bold' }}>enote</span>
                     </LogoWrapper>
                     <AuthWrapper>
-                       <LoginWrapper>Login</LoginWrapper>
-                    <AuthButton>Get started</AuthButton>
+                    <LoginWrapper>Login</LoginWrapper>
+                    <AuthButton role="link">Sign up</AuthButton>
                     </AuthWrapper>
                 </NavbarWrapper>
             </NavbarContainer>
