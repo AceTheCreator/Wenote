@@ -11,3 +11,10 @@ img {
     max-height: 10%;
     display: block
 }
+
+.google-auth{
+    width: 100%;
+    justify-content: center;
+    border: 1px solid black;
+    box-shadow: rgb(0 0 0 / 24%) 0px 2px 2px 0px;
+}

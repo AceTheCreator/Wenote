@@ -28,6 +28,7 @@ export const LoginWrapper = styled.div`
 display: flex;
 align-items: center;
 margin-right: 20px;
+cursor: pointer;
 `;
 export const AuthButton = styled.button`
 padding: 8px;
