@@ -17,8 +17,16 @@ text-align: left;
 `;
 export const Input = styled.input`
 width: 100%;
-border: 1px solid rgb(165, 165, 165);
+border: 1px solid ${(props) => props.color};
 padding: 10px;
 border-radius: 5px;
+font-size: 14px;
+&:focus{
+    outline: none;
+}
+`;
+
+export const Invalid = styled.span`
+color: red;
 font-size: 14px;
 `;

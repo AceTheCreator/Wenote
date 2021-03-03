@@ -56,7 +56,7 @@ export default function navbar() {
                     }}>
                     <img width="15px" src={userImg} alt="profile-icon" /> <span style={{
                       marginLeft:"3px",
-                      fontSize: "15px"
+                      fontSize: "15px",
                     }}>
                     Login
                     </span>
