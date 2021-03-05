@@ -40,4 +40,8 @@ height: auto;
 width: 80px;
 font-size: 14px;
 cursor: pointer;
+&:disabled{
+    background: rgb(173, 173, 173);
+    cursor: not-allowed
+}
 `;

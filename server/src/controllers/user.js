@@ -13,7 +13,7 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GoogleClientId);
 
 // eslint-disable-next-line consistent-return
-router.get('/auth/google', async (req, res) => {
+router.post('/auth/google', async (req, res) => {
   try {
     const { token } = req.body;
     const ticket = await client.verifyIdToken({
@@ -89,8 +89,7 @@ router.post('/login', async (req, res) => {
         if (err) return res.status(401).send(err);
         if (same) {
           const token = jwt.sign({ _id: user.id }, process.env.JWT_KEY);
-          res.setHeader('auth-token', token);
-          return res.status(200).send('welcome back');
+          return res.status(200).send(token);
         }
         return res.status(401).send('invalid password');
       });

@@ -1,36 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import { GoogleLogin } from 'react-google-login';
 import { useForm } from "react-hook-form";
 import { TextSummary } from '../landing/landing.style';
 import { AuthButton } from '../navbar/navbar.style';
-import { AuthHeader, AuthWrapper, Input, InputWrapper, Invalid } from './auth.style';
-
+import { AuthHeader, AuthWrapper,InputWrapper, Invalid } from './auth.style';
+import roll from "../../static/rolling.svg";
 const defaultInputColor = "rgb(207, 207, 207)";
 
 export default function signup() {
-    const [emailColor, setEmailColor] = useState(defaultInputColor);
-    const [passwordColor, setPasswordColor] = useState(defaultInputColor)
+    const [submit, setSubmit] = useState({
+        submitting: false,
+        disabled: false
+    });
     const { register, handleSubmit, errors } = useForm();
-    const onSubmit = (data) => {
-        console.log(data);
-    };
-    useEffect(() => {
-        if(errors.email){
-            setEmailColor("red");
-        };
-        if(errors.password){
-            setPasswordColor("red")
-        }
-    },[errors.email]);
 
-    const onInputChange = () => {
+    if(errors.email){
+        errors.email.ref.className = "error-input"
+    };
+    if(errors.password){
+        errors.password.ref.className = "error-input"
+    }
+    const onInputChange = (e) => {
         if(!errors.email){
-            setEmailColor(defaultInputColor);
+           e.target.className = ""
         }
        if(!errors.password){
-        setPasswordColor(defaultInputColor);
+           e.target.className = ""
         }
     }
+    const onSubmit = (data) => {
+        setSubmit({submitting: true, disabled: true});
+    };
   return (
       <AuthWrapper>
           <AuthHeader>Create an account</AuthHeader>
@@ -44,18 +44,34 @@ export default function signup() {
           <TextSummary style={{fontSize:"16px"}}>Or</TextSummary>
           <form onSubmit={handleSubmit(onSubmit)}>
           <InputWrapper>
-          <Input onChange={() => onInputChange()} color={emailColor} type="text" name="email" placeholder="Your email address or username" ref={register({required: true})} />
-          {errors.email && <Invalid>Email address is required</Invalid>}
+          <input onChange={(e) => onInputChange(e)} type="text" name="email" placeholder="Your email address or username"           ref={register({
+            required: "email field cannot be blank",
+            pattern: {
+              value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
+              message: "a valid email address is required",
+            },
+          })} />
+          <Invalid>{errors.email && errors.email.message}</Invalid>
           </InputWrapper>
           <InputWrapper>
-          <Input onChange={() => onInputChange()} color={passwordColor} type="text" name="password" ref={register({required: true})} placeholder="password" />
-          {errors.password && <Invalid>Email address is required</Invalid>}
+          <input onChange={(e) => onInputChange(e)} type="text" name="password" ref={register(
+              {required: "password field cannot be blank",
+            minLength: {
+                value: 6,
+                message: "at-least 6 characters are required for password"
+            }})} 
+              placeholder="password" />
+         <Invalid>{errors.password && errors.password.message}</Invalid>
           </InputWrapper>
           <InputWrapper>
-         <AuthButton style={{
+          <AuthButton disabled={submit.disabled} style={{
              width: "106%",
-             padding: "10px"
-         }}>Login</AuthButton>
+             padding: "10px",
+             display: "flex",
+             justifyContent:"center"
+         }}>{
+             submit.submitting ? <img src={roll} alt="activity-loader" width="20px" /> : <div>Login</div>
+         }</AuthButton>
           </InputWrapper>
           </form>
       </AuthWrapper>
