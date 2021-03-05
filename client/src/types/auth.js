@@ -1,2 +1,4 @@
 export const LOGGED_IN = "LOGGED_IN";
 export const LOGGED_OUT = "LOGGED_OUT";
+export const USER_VERIFIED = "USER_VERIFIED";
+export const USER_VERIFICATION_FAILED = "USER_VERIFICATION_FAILED";

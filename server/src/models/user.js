@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-underscore-dangle */
 import mongoose, { Schema } from 'mongoose';
 
 const userSchema = new Schema({
@@ -12,6 +15,15 @@ const userSchema = new Schema({
   password: {
     type: String,
     require,
+  },
+});
+
+userSchema.set('toJSON', {
+  transform(doc, ret, opt) {
+    delete ret.password;
+    delete ret._id;
+    delete ret.email;
+    return ret;
   },
 });
 

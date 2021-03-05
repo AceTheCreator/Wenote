@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
 import { GoogleLogin } from 'react-google-login';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import { useForm } from "react-hook-form";
 import { TextSummary } from '../landing/landing.style';
 import { AuthButton } from '../navbar/navbar.style';
-import { AuthHeader, AuthWrapper,InputWrapper, Invalid } from './auth.style';
+import {signup} from "../../actions/auth"
+import { AuthHeader, AuthWrapper,InputWrapper, Invalid, GlobalMessage } from './auth.style';
 import roll from "../../static/rolling.svg";
-const defaultInputColor = "rgb(207, 207, 207)";
 
-export default function signup() {
+function Signup(props) {
     const [submit, setSubmit] = useState({
         submitting: false,
-        disabled: false
+        disabled: false,
+        error: null
     });
     const { register, handleSubmit, errors } = useForm();
 
@@ -20,6 +23,9 @@ export default function signup() {
     if(errors.password){
         errors.password.ref.className = "error-input"
     }
+    if(errors.fullname){
+        errors.fullname.ref.className = "error-input"
+    }
     const onInputChange = (e) => {
         if(!errors.email){
            e.target.className = ""
@@ -27,13 +33,25 @@ export default function signup() {
        if(!errors.password){
            e.target.className = ""
         }
+        if(!errors.fullname){
+            e.target.className = ""
+         }
     }
     const onSubmit = (data) => {
         setSubmit({submitting: true, disabled: true});
+        props.signup(data.fullname, data.email, data.password).then(() => {
+            window.location.href = "/";
+        }).catch((error) => {
+            setSubmit({submitting: false, disabled: false, error: error.response.data});
+            setTimeout(() => {
+                setSubmit({...submit, error: null})
+            }, 4000)
+        })
     };
   return (
       <AuthWrapper>
           <AuthHeader>Create an account</AuthHeader>
+          {submit.error ? <GlobalMessage>{submit.error}</GlobalMessage> : <div></div>}
           <TextSummary style={{fontSize:"16px"}}>Continue with your google account</TextSummary>
           <GoogleLogin
           clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
@@ -44,7 +62,16 @@ export default function signup() {
           <TextSummary style={{fontSize:"16px"}}>Or</TextSummary>
           <form onSubmit={handleSubmit(onSubmit)}>
           <InputWrapper>
-          <input onChange={(e) => onInputChange(e)} type="text" name="email" placeholder="Your email address or username"           ref={register({
+          <input onChange={(e) => onInputChange(e)} type="text" name="fullname" placeholder="fullname" ref={register({
+            required: "fullname field cannot be blank",
+            minLength: {
+                value: 4,
+                message: "at-least 4 characters are required for password"
+            }})}  />
+          <Invalid>{errors.fullname && errors.fullname.message}</Invalid>
+          </InputWrapper>
+          <InputWrapper>
+          <input onChange={(e) => onInputChange(e)} type="text" name="email" placeholder="email address" ref={register({
             required: "email field cannot be blank",
             pattern: {
               value: /^[^@ ]+@[^@ ]+\.[^@ .]{2,}$/,
@@ -54,7 +81,7 @@ export default function signup() {
           <Invalid>{errors.email && errors.email.message}</Invalid>
           </InputWrapper>
           <InputWrapper>
-          <input onChange={(e) => onInputChange(e)} type="text" name="password" ref={register(
+          <input onChange={(e) => onInputChange(e)} type="password" name="password" ref={register(
               {required: "password field cannot be blank",
             minLength: {
                 value: 6,
@@ -70,10 +97,12 @@ export default function signup() {
              display: "flex",
              justifyContent:"center"
          }}>{
-             submit.submitting ? <img src={roll} alt="activity-loader" width="20px" /> : <div>Login</div>
+             submit.submitting ? <img src={roll} alt="activity-loader" width="20px" /> : <div>Create account</div>
          }</AuthButton>
           </InputWrapper>
           </form>
       </AuthWrapper>
   );
 }
+
+export default connect(null, {signup})(Signup)

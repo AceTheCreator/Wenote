@@ -49,6 +49,11 @@ router.post('/signup', async (req, res) => {
   try {
     const { error } = signupValidation(req.body);
     if (error) return res.status(401).send(error.details[0].message);
+    // check if email is available;
+    const checkEmail = await User.findOne({ email });
+    if (checkEmail) {
+      return res.status(401).send('this email address is not available');
+    }
     const newUser = new User({
       fullname,
       email,
@@ -67,7 +72,7 @@ router.post('/signup', async (req, res) => {
         await newUser.save();
         const token = jwt.sign({ _id: newUser.id }, process.env.JWT_KEY);
         res.setHeader('auth-token', token);
-        return res.status(201).send('your account has been successfully created');
+        return res.status(201).send(token);
       });
     });
   } catch (error) {
@@ -95,6 +100,21 @@ router.post('/login', async (req, res) => {
       });
     }
     return res.status(401).send('this email does\'nt exist');
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
+
+router.post('/validate', async (req, res) => {
+  try {
+    const { token } = req.body;
+    const verify = await jwt.verify(token, process.env.JWT_KEY);
+    // eslint-disable-next-line no-underscore-dangle
+    const user = await User.findById(verify._id);
+    if (user) {
+      return res.status(200).send(user.fullname);
+    }
+    return res.status(401).send('can\'nt verify this user');
   } catch (error) {
     return res.status(500).send(error);
   }

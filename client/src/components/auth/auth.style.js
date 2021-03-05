@@ -30,3 +30,12 @@ export const Invalid = styled.span`
 color: red;
 font-size: 14px;
 `;
+
+export const GlobalMessage = styled.div`
+padding: 10px;
+border-radius: 5px;
+font-size: 14px; 
+font-weight: bold;
+background: red;
+color: white;
+`;

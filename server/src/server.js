@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import express from 'express';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 // Routes controllers
 import user from './controllers/user';
@@ -14,6 +15,7 @@ const server = require('http').Server(app);
 // Middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cors());
 
 // Controllers
 app.get('/', () => {
