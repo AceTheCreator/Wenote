@@ -81,16 +81,16 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
+  const {
+    email,
+    password,
+  } = req.body;
   try {
-    const {
-      email,
-      password,
-    } = req.body;
     const { error } = signinValidation(req.body);
-    if (error) return res.status(401).send(error.details[0].message);
+    if (error) return res.status(400).send(error.details[0].message);
     const user = await User.findOne({ email });
     if (user) {
-      bcrypt.compare(password, user.password, (err, same) => {
+      await bcrypt.compare(password, user.password, (err, same) => {
         if (err) return res.status(401).send(err);
         if (same) {
           const token = jwt.sign({ _id: user.id }, process.env.JWT_KEY);

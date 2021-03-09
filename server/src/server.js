@@ -18,9 +18,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Controllers
-app.get('/', () => {
-  console.log('hello');
-});
+app.get('/', (req, res) => res.status(200).send('hello'));
 const urlEndpoint = '/wenote/api/v1';
 app.use(`${urlEndpoint}/user`, user);
 
