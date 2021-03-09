@@ -13,7 +13,7 @@ const { OAuth2Client } = require('google-auth-library');
 const client = new OAuth2Client(process.env.GoogleClientId);
 
 // eslint-disable-next-line consistent-return
-router.post('/auth/google', async (req, res) => {
+router.post('/auth/google/signup', async (req, res) => {
   try {
     const { token } = req.body;
     const ticket = await client.verifyIdToken({
@@ -21,11 +21,9 @@ router.post('/auth/google', async (req, res) => {
       audience: process.env.GoogleClientId,
     });
     const { name, email } = ticket.getPayload();
-    const user = await User.findOne(email);
+    const user = await User.findOne({ email });
     if (user) {
-      const jwtToken = jwt.sign({ _id: user.id }, process.env.JWT_KEY);
-      res.setHeader('auth-token', jwtToken);
-      return res.status(200).send('welcome back');
+      return res.status(401).send('a user with this email already exist');
     }
     const newUser = new User({
       email,
@@ -34,7 +32,26 @@ router.post('/auth/google', async (req, res) => {
     await newUser.save();
     const jwtToken = jwt.sign({ _id: newUser.id }, process.env.JWT_KEY);
     res.setHeader('auth-token', jwtToken);
-    return res.status(201).send('successfully created your account');
+    return res.status(201).send(jwtToken);
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
+router.post('/auth/google/login', async (req, res) => {
+  const { token } = req.body;
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GoogleClientId,
+    });
+    const { email } = ticket.getPayload();
+    const user = await User.findOne({ email });
+    if (user) {
+      const jwtToken = jwt.sign({ _id: user.id }, process.env.JWT_KEY);
+      res.setHeader('auth-token', jwtToken);
+      return res.status(200).send(jwtToken);
+    }
+    return res.status(401).send('this user as no account yet');
   } catch (error) {
     return res.status(500).send(error);
   }

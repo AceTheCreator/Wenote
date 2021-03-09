@@ -5,7 +5,7 @@ import { GoogleLogin } from 'react-google-login';
 import { useForm } from "react-hook-form";
 import { TextSummary } from '../landing/landing.style';
 import { AuthButton } from '../navbar/navbar.style';
-import {login} from "../../actions/auth"
+import {login, oauthLogin} from "../../actions/auth"
 import roll from "../../static/rolling.svg";
 import { AuthHeader, AuthWrapper, GlobalMessage, InputWrapper, Invalid } from './auth.style';
 
@@ -41,6 +41,21 @@ function Login(props) {
             }, 4000)
         })
     };
+    const responseGoogle = (response) => {
+        console.log(response);
+        if(response.tokenId){
+            props.oauthLogin(response.tokenId).catch((error) => {
+                setSubmit({
+                    error: error.response.data
+                });
+                setTimeout(() => {
+                    setSubmit({...submit, error: null})
+                }, 4000)
+            });
+        }else{
+            setSubmit({...submit, error: "google authorization failed"})
+        }
+      }
   return (
       <AuthWrapper>
           <AuthHeader>Log in</AuthHeader>
@@ -51,6 +66,9 @@ function Login(props) {
           buttonText="Log in with Google"
           cookiePolicy={'single_host_origin'}
           className="google-auth"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
+          cookiePolicy={'single_host_origin'}
           />
           <TextSummary style={{fontSize:"16px"}}>Or</TextSummary>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -90,6 +108,7 @@ function Login(props) {
 }
 
 Login.propTypes = {
-    login: PropTypes.func.isRequired
+    login: PropTypes.func.isRequired,
+    oauthLogin: PropTypes.func.isRequired,
 }
-export default connect(null, {login}) (Login);
+export default connect(null, {login, oauthLogin}) (Login);

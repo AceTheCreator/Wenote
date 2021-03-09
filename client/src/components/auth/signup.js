@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import { useForm } from "react-hook-form";
 import { TextSummary } from '../landing/landing.style';
 import { AuthButton } from '../navbar/navbar.style';
-import {signup} from "../../actions/auth"
+import {signup, oauthSignup} from "../../actions/auth"
 import { AuthHeader, AuthWrapper,InputWrapper, Invalid, GlobalMessage } from './auth.style';
 import roll from "../../static/rolling.svg";
 
@@ -48,6 +48,21 @@ function Signup(props) {
             }, 4000)
         })
     };
+    const responseGoogle = (response) => {
+        console.log(response);
+        if(response.tokenId){
+            props.oauthSignup(response.tokenId).catch((error) => {
+                setSubmit({
+                    error: error.response.data
+                });
+                setTimeout(() => {
+                    setSubmit({...submit, error: null})
+                }, 4000)
+            });
+        }else{
+            setSubmit({...submit, error: "google authorization failed"})
+        }
+      }
   return (
       <AuthWrapper>
           <AuthHeader>Create an account</AuthHeader>
@@ -58,6 +73,8 @@ function Signup(props) {
           buttonText="Sign up with Google"
           cookiePolicy={'single_host_origin'}
           className="google-auth"
+          onSuccess={responseGoogle}
+          onFailure={responseGoogle}
           />
           <TextSummary style={{fontSize:"16px"}}>Or</TextSummary>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -105,4 +122,9 @@ function Signup(props) {
   );
 }
 
-export default connect(null, {signup})(Signup)
+Signup.propTypes = {
+    signup: PropTypes.func.isRequired,
+    oauthSignup: PropTypes.func.isRequired
+}
+
+export default connect(null, {signup, oauthSignup})(Signup)

@@ -9,8 +9,9 @@ const serverEndpoint =  "http://localhost:5000/wenote/api/v1/user";
 // }
 
 export default {
-    oauth: (token) => axios.post(`${serverEndpoint}/auth/google`, {token}).then((res) => res.data),
+    oauthSignup: (token) => axios.post(`${serverEndpoint}/auth/google/signup`, {token}).then((res) => res.data),
     login: (email, password) => axios.post(`${serverEndpoint}/login`, {email, password}).then((res) => res.data),
     signup: (fullname, email, password) => axios.post(`${serverEndpoint}/signup`, {fullname, email, password}).then((res) => res.data),
+    oauthLogin: (token) => axios.post(`${serverEndpoint}/auth/google/login`, {token}).then((res) => res.data),
     verify: (token) => axios.post(`${serverEndpoint}/validate`, {token}).then((res) => res.data),
 }

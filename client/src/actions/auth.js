@@ -27,11 +27,24 @@ export const signup = (fullname, email, password) => (dispatch) => {
     })
 }
 
-export const oauth = (token) => (dispatch) => {
+export const oauthLogin = (token) => (dispatch) => {
     dispatch({
         type: "Oauth-dispatch"
     });
-    return api.oauth(token).then((res) => {
+    return api.oauthLogin(token).then((res) => {
+        dispatch({
+            type: LOGGED_IN,
+            token: res
+        });
+        localStorage.setItem("wenoteToken", res);
+    })
+};
+
+export const oauthSignup= (token) => (dispatch) => {
+    dispatch({
+        type: "Oauth-dispatch"
+    });
+    return api.oauthSignup(token).then((res) => {
         dispatch({
             type: LOGGED_IN,
             token: res
