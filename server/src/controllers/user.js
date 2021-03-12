@@ -97,6 +97,7 @@ router.post('/signup', async (req, res) => {
   }
 });
 
+// eslint-disable-next-line consistent-return
 router.post('/login', async (req, res) => {
   const {
     email,
@@ -107,16 +108,16 @@ router.post('/login', async (req, res) => {
     if (error) return res.status(400).send(error.details[0].message);
     const user = await User.findOne({ email });
     if (user) {
+      // eslint-disable-next-line no-unused-vars
       await bcrypt.compare(password, user.password, (err, same) => {
         if (err) return res.status(401).send(err);
-        if (same) {
-          const token = jwt.sign({ _id: user.id }, process.env.JWT_KEY);
-          return res.status(200).send(token);
-        }
-        return res.status(401).send('invalid password');
+        const token = jwt.sign({ _id: user.id }, process.env.JWT_KEY);
+        return res.status(200).send(token);
       });
     }
-    return res.status(401).send('this email does\'nt exist');
+    if (!user) {
+      return res.status(401).send('this email does\'nt exist');
+    }
   } catch (error) {
     return res.status(500).send(error);
   }

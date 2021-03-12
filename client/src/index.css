@@ -21,7 +21,7 @@ input{
 }
 .error-input{
     width: 100%;
-    border: 2px solid #b6b6b6;
+    border: 2px solid rgb(207, 2, 2);
     padding: 10px;
     border-radius: 5px;
     font-size: 14px;

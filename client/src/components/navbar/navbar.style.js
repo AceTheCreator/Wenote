@@ -15,9 +15,11 @@ height: 7vh;
 `;
 
 export const LogoWrapper = styled.div`
-width: 40px;
 display: flex;
 align-items: center;
+@media(max-width:992px){
+    justify-content: center;
+}
 `;
 
 export const AuthWrapper = styled.div`
@@ -43,5 +45,77 @@ cursor: pointer;
 &:disabled{
     background: rgb(173, 173, 173);
     cursor: not-allowed
+}
+`;
+
+export const AfterAuthNav = styled.div`
+position: sticky;
+width: 15%;
+background-color: #161616;
+color: white;
+padding-top: 10px;
+padding-bottom: 10px;
+height: 100vh;
+z-index: 999;
+top: 0;
+`;
+
+export const AfterAuthWrapper = styled.div`
+display: flex;
+justify-content: space-between;
+flex-direction: column;
+height: 95vh;
+@media(max-width: 992px){
+    align-items: center;
+}
+@media(min-width: 992px){
+    margin-left: 10px;
+    margin-right: 10px;
+}
+`;
+
+export const Logo = styled.img`
+width: 25px;
+`;
+
+export const LogoText = styled.span`
+font-weight: bold;
+padding-left: 5px;
+@media(max-width:992px){
+    display: none;
+}
+`;
+
+export const NavLinks = styled.div`
+`;
+
+export const NavLink = styled.div`
+display: flex;
+justify-content: flex-start;
+align-items: center;
+margin-top: 20px;
+padding: 10px;
+border-radius: 5px;
+cursor: pointer;
+color: #b6b6b6;
+&:hover{
+    background: #202020;
+    transition: 0.3s ease-in;
+    color: white;
+}
+`;
+
+export const ActiveNavLink = styled(NavLink)`
+  background: #202020;
+  color: white;
+
+`;
+
+export const NavText = styled.span`
+margin-left: 20px;
+font-size: 15px;
+font-weight: bold;
+@media(max-width:992px){
+    display: none;
 }
 `;

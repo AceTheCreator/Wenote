@@ -32,9 +32,9 @@ function Login(props) {
     }
     const onSubmit = (data) => {
         setSubmit({submitting: true, disabled: true});
-        props.login(data.email, data.password).then(() => {
-
-        }).catch((error) => {
+        props.login(data.email, data.password)
+        .catch((error) => {
+            console.log(error.response);
             setSubmit({submitting: false, disabled: false, error: error.response.data});
             setTimeout(() => {
                 setSubmit({...submit, error: null})
