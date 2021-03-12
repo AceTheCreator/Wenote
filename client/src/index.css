@@ -6,12 +6,6 @@ body {
     padding: 0;
 }
 
-img {
-    max-width: 100%;
-    max-height: 10%;
-    display: block
-}
-
 .google-auth{
     width: 100%;
     justify-content: center;
@@ -27,11 +21,15 @@ input{
 }
 .error-input{
     width: 100%;
-    border: 2px solid rgb(207, 2, 2);
+    border: 2px solid #b6b6b6;
     padding: 10px;
     border-radius: 5px;
     font-size: 14px;
 }
 .error-input:focus{
     outline: none;
+}
+
+a{
+    text-decoration: none;
 }
