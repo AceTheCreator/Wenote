@@ -1,14 +1,19 @@
-import React from 'react';
+import React, {lazy, Suspense} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Landing from '../components/landing/landing';
-import Home from '../pages/home';
+
+const Home = lazy(() => import('../pages/home'))
+const Note = lazy(() => import('../pages/note'))
 
 function Routes({auth}) {
   if(auth.user){
     return (
+      <Suspense fallback={<div>loadin</div>}>
       <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/notes" exact component={Note} />
       </Switch>
+      </Suspense>
   );
   }
   return (
