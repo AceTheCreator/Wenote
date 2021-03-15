@@ -18,7 +18,12 @@ export default {
         }
     }).then((res) => res.data),
     retrieve: (noteId) => axios.get(`${serverEndpoint}/${noteId}`).then((res) => res.data),
-    update: (token, title, body, tags) => axios.put(`${serverEndpoint}/update/${id}`, {
+    all: (token) => axios.get(`${serverEndpoint}/all`, {
+        headers: {
+            "auth-token": token
+        }
+    }).then((res) => res.data),
+    update: (token, noteId, title, body, tags) => axios.put(`${serverEndpoint}/update/${noteId}`, {
         title,
         body,
         tags
