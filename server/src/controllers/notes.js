@@ -21,6 +21,24 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.get('/all', async (req, res) => {
+  try {
+    const token = await req.header('auth-token');
+    const verify = await jwt.verify(token, process.env.JWT_KEY);
+    const user = await User.findById(verify._id);
+    if (user) {
+      const notes = await Note.find({ creator: user._id });
+      if (notes) {
+        return res.status(200).send(notes);
+      }
+      return res.status(400).send('unable to retrieve users notes');
+    }
+    return res.status(400).send("can'\t retrieve this user");
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
+
 router.post('/new', auth, async (req, res) => {
   const {
     title,
