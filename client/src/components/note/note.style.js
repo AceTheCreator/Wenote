@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {animated} from "react-spring";
 
 export const Header = styled.div`
 display: flex;
@@ -52,4 +53,10 @@ margin: 0
 
 export const NoteDate = styled.span`
 color: rgb(4, 32, 85)
+`;
+
+export const EmptyNotes = styled.div`
+padding-top: 300px;
+padding-bottom: 300px;
+text-align: center;
 `;

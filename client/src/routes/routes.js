@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import Landing from '../components/landing/landing';
 
 const Home = lazy(() => import('../pages/home'))
-const Note = lazy(() => import('../pages/note'))
+const Notes = lazy(() => import('../pages/notes'))
 
 function Routes({auth}) {
   if(auth.user){
@@ -11,7 +11,7 @@ function Routes({auth}) {
       <Suspense fallback={<div>loadin</div>}>
       <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/notes" exact component={Note} />
+          <Route path="/notes" exact component={Notes} />
       </Switch>
       </Suspense>
   );
