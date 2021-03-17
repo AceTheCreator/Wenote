@@ -1,9 +1,9 @@
 import axios from "axios";
 
-let serverEndpoint = serverEndpoint = "http://localhost:5000/wenote/api/v1/user"
+let serverEndpoint = serverEndpoint = "http://localhost:5000/wenote/api/v1/note"
 
 
-if(process.env.NODE_ENV = "production") {
+if(process.env.NODE_ENV === "production") {
     serverEndpoint = `${process.env.SERVER_ENDPOINT}/api/v1/note`
 }
 

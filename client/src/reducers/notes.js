@@ -6,7 +6,7 @@ const initialState =  {
     error: null
 };
 
-export default function notes(state={initialState}, action={}){
+export default function notes(state=initialState, action={}){
     switch (action.type) {
         case FETCHING_NOTES:
             return {

@@ -1,7 +1,15 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import PropTypes from "prop-types";
+import {connect} from "react-redux";
 import { AllNotes, NoteDetails, NoteList, NoteLists, NoteTitle } from './note.style';
+import {getAllNotes} from "../../actions/note";
 
-export default function notes() {
+
+function Notes({getAllNotes, token, notes}) {
+    useEffect(() => {
+        getAllNotes(token)
+    },[]);
+    console.log(notes.notes)
     return (
         <AllNotes>
             <NoteLists>
@@ -17,3 +25,14 @@ export default function notes() {
         </AllNotes>
     )
 }
+
+function mapStateToProps(state){
+    return {
+        token: state.auth.token,
+        notes: state.notes
+    }
+}
+Notes.propTypes = {
+    getAllNotes: PropTypes.func.isRequired
+}
+export default connect(mapStateToProps, {getAllNotes})(Notes);

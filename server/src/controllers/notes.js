@@ -8,20 +8,7 @@ import auth from '../middlewares/auth';
 
 const router = express.Router();
 
-router.get('/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const note = await Note.findById(id);
-    if (note) {
-      return res.status(200).send(note);
-    }
-    return res.status(404).send('note not found');
-  } catch (error) {
-    return res.status(500).send(error);
-  }
-});
-
-router.get('/all', async (req, res) => {
+router.get('/all', auth, async (req, res) => {
   try {
     const token = await req.header('auth-token');
     const verify = await jwt.verify(token, process.env.JWT_KEY);
@@ -34,6 +21,19 @@ router.get('/all', async (req, res) => {
       return res.status(400).send('unable to retrieve users notes');
     }
     return res.status(400).send("can'\t retrieve this user");
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
+
+router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const note = await Note.findById(id);
+    if (note) {
+      return res.status(200).send(note);
+    }
+    return res.status(404).send('note not found');
   } catch (error) {
     return res.status(500).send(error);
   }

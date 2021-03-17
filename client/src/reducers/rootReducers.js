@@ -1,8 +1,8 @@
 import {combineReducers} from "redux";
 import auth from "./auth";
-import note from './note';
+import notes from './notes';
 
 export default combineReducers({
     auth,
-    note
+    notes
 });

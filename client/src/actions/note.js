@@ -9,12 +9,14 @@ export const getAllNotes = (token) => (dispatch) => {
     dispatch({
         type: FETCHING_NOTES
     });
+    console.log(token);
     return api.all(token).then((res) => {
         dispatch({
             type: FETCHING_NOTES_SUCCESS,
             notes: res
         })
     }).catch((err) => {
+        console.log(err.response);
         dispatch({
             type: FETCHING_NOTES_FAILED,
             error: err.response.data
