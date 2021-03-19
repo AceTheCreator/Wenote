@@ -30,9 +30,11 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "draft-js": "^0.11.7",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-dom": "^16.13.1",
+    "react-draft-wysiwyg": "^1.14.5",
     "react-form-hooks": "^1.1.5",
     "react-google-login": "^5.2.2",
     "react-hook-form": "^6.15.4",

@@ -17,6 +17,10 @@ color: white;
 min-height: 100vh;
 @media(min-width:992px){
     width: 25%;
+    position: sticky;
+    top: 0;
+    overflow-y: scroll;
+    height: 100vh;
 }
 width: auto;
 `;

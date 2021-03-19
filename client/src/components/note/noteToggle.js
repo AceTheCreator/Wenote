@@ -13,7 +13,7 @@ export default function noteToggle() {
     });
     return (
         <animated.div style={spring}>
-                    <NoteLists>
+            <NoteLists>
             <NoteList>
                 <NoteTitle>new note</NoteTitle>
                 <NoteDetails>hello</NoteDetails>

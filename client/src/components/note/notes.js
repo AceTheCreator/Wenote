@@ -18,11 +18,8 @@ function Notes({getAllNotes, token, notes, id}) {
         },
     });
     useEffect(() => {
-        if(id){
-            console.log("hh")
-        }
         getAllNotes(token)
-    },[id]);
+    },[]);
     const ToggledComponent = animated(NoteToggled);
     if(notes.loading){
         return <Suspense fallback={<div></div>}>
@@ -39,16 +36,14 @@ function Notes({getAllNotes, token, notes, id}) {
             {id ? <Suspense fallback={<div>loading</div>}>
                 <ToggledComponent style={spring} />
             </Suspense>  : <div></div>}
-            <NoteLists>
-                {Array(50)
-                .fill()
-                .map(() => {
+                {emptyChecker(notes.notes) ? <div></div> : <NoteLists>
+                    {notes.notes.map((i) => {
                     return <NoteList>
-                        <NoteTitle>hello world</NoteTitle>
-                        <NoteDetails>ndknsklnslkndkndlndklndklnl</NoteDetails>
-            </NoteList>
-        })}
-        </NoteLists>
+                    <NoteTitle>hello world</NoteTitle>
+                    <NoteDetails>ndknsklnslkndkndlndklndklnl</NoteDetails>
+                    </NoteList>
+                })}
+                </NoteLists> }
         </AllNotes>
     )
 }
@@ -60,6 +55,7 @@ function mapStateToProps(state){
         notes: state.notes
     }
 }
+
 Notes.propTypes = {
     getAllNotes: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,

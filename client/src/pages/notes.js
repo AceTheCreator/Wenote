@@ -1,4 +1,4 @@
-import React, {lazy, Suspense, useState} from 'react';
+import React, {lazy, Suspense, useState, useEffect} from 'react';
 import {useMediaQuery} from 'react-responsive';
 import {useHistory} from "react-router-dom";
 import { NoteContainer,  NoteListWrapper,  NoteWrapper } from './note.style';
@@ -9,8 +9,16 @@ const Notes = lazy(() => import ('../components/note/notes'));
 const Note = lazy(() => import('../components/note/note'));
 export default function note() {
     const history = useHistory();
+    const {hash} = history.location;
+    const noteId = hash.split('/')[1];
     const [selectedNote, setSelectedNote] = useState(null);
     const isMobile = useMediaQuery({ query: '(max-width: 992px)' });
+    useEffect(() => {
+        if(noteId){
+            console.log(noteId)
+            setSelectedNote(noteId)
+        }
+    },[noteId]);
     return (
         <NoteContainer>
             <NoteListWrapper>
@@ -31,7 +39,7 @@ export default function note() {
             </NoteListWrapper>
             <NoteWrapper>
             {!isMobile ? <Suspense fallback={<div>loading</div>}>
-                <Note />
+                <Note id={selectedNote} />
             </Suspense> : <div style={{display:"none"}}></div> }
             </NoteWrapper>
         </NoteContainer>
