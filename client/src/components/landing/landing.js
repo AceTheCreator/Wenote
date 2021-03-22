@@ -1,5 +1,4 @@
 import React, {useState, Suspense, lazy} from 'react';
-import {useSpring, animated} from "react-spring";
 import { AuthButton } from '../navbar/navbar.style';
 import {
   LandingBg, Landing, LandingContent, Heading, TextSummary, Colored
@@ -11,19 +10,11 @@ const Signup = lazy(() => import("../auth/signup"));
 
 export default function landing() {
   const [show, setShow] = useState(false);
-  const spring = useSpring({
-    from: {
-      marginTop: '-100px'
-    },
-    to: {
-      marginTop: '50px'
-    }
-  });
-  const ModalComponent = animated(Modal);
+  const ModalComponent = Modal;
   return (
       <Landing>
         <Suspense fallback={<div>loaing</div>}>
-            <ModalComponent style={spring} show={show} onHide={() => setShow(false)}>
+            <ModalComponent show={show} onHide={() => setShow(false)}>
               <Suspense fallback={<div>loading</div>}>
                 <Signup />
               </Suspense>

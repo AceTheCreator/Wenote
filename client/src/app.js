@@ -5,9 +5,10 @@ import {AppContainer} from "./app.style";
 import Route from './routes/routes';
 
 function App({auth}) {
-  const [display, setDisplay] = useState("");
+  const [display, setDisplay] = useState("block");
   useEffect(() => {
-    if(auth){
+    if(auth.user){
+      console.log(auth);
       setDisplay("flex");
     }
   },[auth])

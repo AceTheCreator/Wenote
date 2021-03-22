@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 const BeforeAuthNav = lazy(() => import('./beforeAuth'));
 const AfterAuth = lazy(() => import("./afterAuth"));
 export default function Navbar({auth}) {
-  if(auth){
+  if(auth.user){
     return (
       <Suspense fallback={<div>loading</div>}>
         <AfterAuth />

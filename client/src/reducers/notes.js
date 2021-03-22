@@ -31,4 +31,4 @@ export default function notes(state=initialState, action={}){
         default:
             return state;
     }
-}
+};

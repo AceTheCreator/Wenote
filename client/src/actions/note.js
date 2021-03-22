@@ -1,6 +1,13 @@
 import {FETCHING_NOTES, FETCHING_NOTES_SUCCESS, FETCHING_NOTES_FAILED} from "../types/note";
 import api from "../api/note";
 
+export const createNote = (token, body, tags) => (dispatch) => {
+    dispatch({
+        type: "CREATE-NOTE"
+    });
+    return api.create(token, body, tags);
+}
+
 export const getNote = (id) => () => {
     return api.retrieve(id)
 }
@@ -30,4 +37,12 @@ export const updateNote = (token, noteId, title, body, tags) => () => {
 
 export const deleteNote = (token, noteId) => () => {
     return api.delete(tokem, noteId);
+};
+
+
+export const note = (data) => (dispatch) => {
+    dispatch({
+        type: "EDITING_NOTE",
+        data
+    })
 }

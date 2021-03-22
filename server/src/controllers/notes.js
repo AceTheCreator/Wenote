@@ -41,7 +41,6 @@ router.get('/:id', async (req, res) => {
 
 router.post('/new', auth, async (req, res) => {
   const {
-    title,
     body,
     tags,
   } = req.body;
@@ -53,7 +52,6 @@ router.post('/new', auth, async (req, res) => {
     const user = await User.findById(verify._id);
     if (user) {
       const newNote = new Note({
-        title,
         body,
         tags,
       });
@@ -68,7 +66,6 @@ router.post('/new', auth, async (req, res) => {
 
 router.put('/update/:id', auth, async (req, res) => {
   const {
-    title,
     body,
     tags,
   } = req.body;
@@ -83,7 +80,6 @@ router.put('/update/:id', auth, async (req, res) => {
       const note = await Note.findById(id);
       if (note) {
         if (user._id === note.creator) {
-          note.title = title;
           note.body = body;
           note.tags = tags;
           await note.save();

@@ -8,8 +8,7 @@ if(process.env.NODE_ENV === "production") {
 }
 
 export default {
-    create: (token, body, title, tags) => axios.post(`${serverEndpoint}/new`, {
-        title,
+    create: (token, body, tags) => axios.post(`${serverEndpoint}/new`, {
         body,
         tags
     }, {
