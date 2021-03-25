@@ -18,6 +18,11 @@ const noteSchema = new Schema({
     ref: 'User',
     require,
   },
+  createdAt: {
+    type: Date,
+    require,
+    default: Date.now(),
+  },
 });
 
 noteSchema.set('toJson', {

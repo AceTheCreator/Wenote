@@ -47,16 +47,17 @@ router.post('/new', auth, async (req, res) => {
   try {
     const { error } = noteValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    const token = req.headers('auth-token');
+    const token = req.header('auth-token');
     const verify = jwt.verify(token, process.env.JWT_KEY);
     const user = await User.findById(verify._id);
     if (user) {
       const newNote = new Note({
         body,
         tags,
+        creator: user._id,
       });
       await newNote.save();
-      return res.status(201).send('note successfully saved');
+      return res.status(201).send(newNote._id);
     }
     return res.status(401).send('you\'re not authorized to perfrom this action');
   } catch (error) {

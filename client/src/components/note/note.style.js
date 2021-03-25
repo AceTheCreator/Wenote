@@ -73,6 +73,7 @@ text-align: center;
 export const SelectNote = styled.div`
 text-align: center;
 padding: 1rem;
+padding-top: 300px;
 `;
 
 export const EditorContainer = styled.div`
@@ -101,9 +102,19 @@ width: 50%;
 
 export const SaveButton = styled.button`
 background: green;
-border-radius: 50px;
-padding: 2px;
+border: none;
+font-size: 14px;
+height: 1.875em;
+min-width: 70px;
+padding: 5px;
+border-radius: 3px;
+background: rgb(133, 165, 255);
 text-align: center;
+cursor: pointer;
+&::disabled{
+    background: rgb(187, 187, 187);
+    cursor:not-allowed;
+}
 `;
 
 export const TagsLists = styled.ul`

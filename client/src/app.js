@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import {ToastContainer} from "react-toastify";
 import {connect} from "react-redux";
 import Navbar from './components/navbar/navbar';
 import {AppContainer} from "./app.style";
@@ -16,6 +17,7 @@ function App({auth}) {
     <AppContainer display={display}>
      <Navbar auth={auth} />
       <Route auth={auth} />
+      <ToastContainer />
     </AppContainer>
   );
 }

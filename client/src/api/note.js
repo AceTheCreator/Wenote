@@ -22,8 +22,7 @@ export default {
             "auth-token": token
         }
     }).then((res) => res.data),
-    update: (token, noteId, title, body, tags) => axios.put(`${serverEndpoint}/update/${noteId}`, {
-        title,
+    update: (token, noteId, body, tags) => axios.put(`${serverEndpoint}/update/${noteId}`, {
         body,
         tags
     }, {
