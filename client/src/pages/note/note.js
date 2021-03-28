@@ -1,7 +1,7 @@
 import React, {lazy, Suspense} from 'react';
 import { NoteWrapper } from './note.style';
 
-const Note = lazy(() => import('../components/note/note'));
+const Note = lazy(() => import('../../components/note/note'));
 
 export default function note({id}) {
     return (

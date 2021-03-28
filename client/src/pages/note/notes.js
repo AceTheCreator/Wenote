@@ -2,11 +2,11 @@ import React, {lazy, Suspense, useState, useEffect} from 'react';
 import {useMediaQuery} from 'react-responsive';
 import {useHistory, Link} from "react-router-dom";
 import { NoteContainer,  NoteListWrapper,  NoteWrapper } from './note.style';
-import { AddNoteButton, Header, HeaderTitle } from '../components/note/note.style'
+import { AddNoteButton, Header, HeaderTitle } from '../../components/note/note.style'
 import {IoMdAdd} from "react-icons/io"
 
-const Notes = lazy(() => import ('../components/note/notes'));
-const Note = lazy(() => import('../pages/note'));
+const Notes = lazy(() => import ('../../components/note/notes'));
+const Note = lazy(() => import('../../pages/note/note'));
 export default function NotesView() {
     const history = useHistory();
     const {pathname} = history.location;

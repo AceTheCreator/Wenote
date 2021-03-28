@@ -11,8 +11,9 @@ const Loading = lazy(() => import("../skeleton/notes"));
 const NoteToggled = lazy(() => import('./noteToggle'));
 function Notes({getAllNotes, token, notes, id, note}) {
     useEffect(() => {
-        getAllNotes(token)
-    },[]);
+        getAllNotes(token);
+        console.log(id);
+    },[id]);
     if(notes.loading){
         return <Suspense fallback={<div></div>}>
         <Loading />

@@ -30,7 +30,7 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
             setId(noteId);
             getNote(noteId);
         }
-    },[pathname]);
+    },[pathname, noteId]);
 
     useEffect(() => {
         if(noteId !== null){
@@ -113,13 +113,14 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
     if(save.saving){
         btnText = <img width="20px" src={roll} alt="activity-loader" />
     }
+    let view;
     if(fetchNote.loading){
-        return <SelectNote>
+        view = <SelectNote>
             <h2>loading note</h2>
         </SelectNote>
     }
     if(id || fetchNote.note) {
-        return <EditorContainer>
+        view = <EditorContainer>
         <Editor
         editorState={editorState}
         toolbarClassName="note-toolbar"
@@ -148,14 +149,17 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
     </EditorContainer>
     }
     if(fetchNote.error){
-        return <SelectNote>
+       view = <SelectNote>
         <h2>Oooops!!! {fetchNote.error}</h2>
         </SelectNote>
     }
-    return (
-        <SelectNote>
+    if(!noteId){
+        view = <SelectNote>
         <h2>Select an existing note or create a new one to get started</h2>
         </SelectNote>
+    };
+    return (
+        <div>{view}</div>
     )
 };
 Note.PropTypes = {
