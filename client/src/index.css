@@ -1,9 +1,12 @@
-@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Asap&display=swap");
 
 body {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Asap', sans-serif;
     margin: 0;
     padding: 0;
+}
+button{
+    width: calc(100% - 20px);
 }
 
 .google-auth{
@@ -13,7 +16,7 @@ body {
     box-shadow: rgb(0 0 0 / 24%) 0px 2px 2px 0px;
 }
 input{
-    width: 100%;
+    width: calc(100% - 20px);
     border: 1px solid rgb(207, 207, 207);
     padding: 10px;
     border-radius: 5px;

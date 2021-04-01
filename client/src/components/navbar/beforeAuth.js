@@ -1,6 +1,6 @@
 import React, {useState, Suspense, lazy} from 'react';
 import {useSpring, animated} from "react-spring";
-import logo from '../../static/logo.png';
+import logo from '../../static/dark-logo.svg';
 import userImg from '../../static/user.svg';
 import {
   NavbarContainer, LogoWrapper, NavbarWrapper, AuthWrapper, AuthButton, LoginWrapper
@@ -45,9 +45,9 @@ export default function navbar() {
             <NavbarContainer>
                 <NavbarWrapper>
                     <LogoWrapper>
-                    <img style={{
-                      transform: 'rotate(180deg)'
-                    }} src={logo} alt="hooknote-logo" /> <span style={{ fontWeight: 'bold' }}>enote</span>
+                    <img width="30px" style={{
+                      transform: "rotate(100deg)"
+                    }} src={logo} alt="hooknote-logo" /> <span style={{ fontWeight: 'bold' }}>hromenote</span>
                     </LogoWrapper>
                     <AuthWrapper>
                     <LoginWrapper onClick={() => {

@@ -109,7 +109,7 @@ function Signup(props) {
           </InputWrapper>
           <InputWrapper>
           <AuthButton disabled={submit.disabled} style={{
-             width: "106%",
+             width: "100%",
              padding: "10px",
              display: "flex",
              justifyContent:"center"

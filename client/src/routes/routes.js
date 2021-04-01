@@ -1,8 +1,8 @@
 import React, { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { useMediaQuery } from 'react-responsive';
-import Landing from '../components/landing/landing';
 
+const BeforeAuthHome = lazy(() => import('../pages/home/beforeAuthHome'));
 const Home = lazy(() => import('../pages/home/home'));
 const Notes = lazy(() => import('../pages/note/notes'));
 const Note = lazy(() => import('../pages/note/note'));
@@ -23,9 +23,11 @@ function Routes({ auth }) {
     );
   }
   return (
-    <Switch>
-        <Route path="/" exact component={Landing} />
-    </Switch>
+    <Suspense fallback={<div>loading</div>}>
+      <Switch>
+        <Route path="/" exact component={BeforeAuthHome} />
+        </Switch>
+    </Suspense>
   );
 }
 

@@ -2,7 +2,9 @@
 import styled from 'styled-components';
 
 export const NavbarContainer = styled.div`
+background: transparent;
 border-bottom: 1px solid rgb(240, 240, 240);
+width: 100%
 `;
 
 export const NavbarWrapper = styled.div`
@@ -10,8 +12,12 @@ display: flex;
 justify-content: space-between;
 align-items: center;
 margin: 0px auto;
-max-width: 1300px;
+max-width: 1400px;
 height: 7vh;
+@media(max-width:992px){
+    padding-left: 5px;
+    padding-right: 5px;
+}
 `;
 
 export const LogoWrapper = styled.div`

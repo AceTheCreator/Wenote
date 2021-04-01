@@ -24,6 +24,7 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const {pathname} = history.location;
     useEffect(() => {
+        const urlId = pathname.split('/')[2];
         if(pathname.includes('new') || noteId === 'new'){
             setId('new')
         }else if(noteId !== null){
