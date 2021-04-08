@@ -24,5 +24,5 @@ const tasksSchema = new Schema({
     default: 0,
   },
 });
-
-export default mongoose.model(tasksSchema, 'Tasks');
+tasksSchema.index({ title: 'text' });
+export default mongoose.model('Tasks', tasksSchema);

@@ -33,4 +33,6 @@ noteSchema.set('toJson', {
   },
 });
 
+noteSchema.index({ title: 'text', tags: 'text', body: 'text' });
+
 export default mongoose.model('Note', noteSchema);
