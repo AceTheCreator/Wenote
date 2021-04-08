@@ -12,9 +12,9 @@ router.post('/', auth, async (req, res) => {
     const verify = await jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findById(verify._id);
     if (user) {
-
+      console.log('hello world');
     }
-    return res.status(400).send('can\'t find this user');
+    return res.status(400).send("can't find this user");
   } catch (error) {
     return res.status(500).send(error);
   }
