@@ -8,3 +8,12 @@ export function tasksValidation(data) {
   });
   return schema.validate(data);
 }
+
+export function taskValidation(data) {
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    status: Joi.string(),
+    dueDate: Joi.date(),
+  });
+  return schema.validate(data);
+}

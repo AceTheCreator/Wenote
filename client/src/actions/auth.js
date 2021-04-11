@@ -11,6 +11,7 @@ return api.login(username, password).then((res) => {
         token: res
     });
     localStorage.setItem("wenoteToken", res);
+    window.location.href = '/';
 })
 }
 

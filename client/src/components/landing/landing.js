@@ -24,7 +24,7 @@ export default function landing() {
   return (
     <div>
       <Landing>
-        <Suspense fallback={<div>loaing</div>}>
+        <Suspense fallback={<div></div>}>
             <ModalComponent show={show} onHide={() => setShow(false)}>
               <Suspense fallback={<div>loading</div>}>
                 <Signup />

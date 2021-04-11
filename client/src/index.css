@@ -9,6 +9,13 @@ button{
     width: calc(100% - 20px);
 }
 
+textarea:focus, input:focus{
+    outline: none;
+}
+
+button:focus{
+    outline: 0;
+}
 .google-auth{
     width: 100%;
     justify-content: center;

@@ -9,7 +9,7 @@ function App({auth}) {
   const [display, setDisplay] = useState("block");
   useEffect(() => {
     if(auth.user){
-      console.log(auth);
+      console.log(auth.user);
       setDisplay("flex");
     }
   },[auth])

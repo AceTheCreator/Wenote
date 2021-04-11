@@ -6,6 +6,8 @@ import cors from 'cors';
 // Routes controllers
 import user from './controllers/user';
 import note from './controllers/notes';
+import tasks from './controllers/tasks';
+import task from './controllers/task';
 
 require('dotenv').config();
 
@@ -23,5 +25,7 @@ app.get('/', (req, res) => res.status(200).send('welcome to wenote api'));
 const urlEndpoint = '/wenote/api/v1';
 app.use(`${urlEndpoint}/user`, user);
 app.use(`${urlEndpoint}/note`, note);
+app.use(`${urlEndpoint}/tasks`, tasks);
+app.use(`${urlEndpoint}/task`, task);
 
 export default server;

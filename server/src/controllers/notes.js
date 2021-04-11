@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable no-underscore-dangle */
 import express from 'express';
 import jwt from 'jsonwebtoken';
@@ -74,13 +75,13 @@ router.put('/update/:id', auth, async (req, res) => {
   try {
     const { error } = noteValidation(req.body);
     if (error) return res.status(400).send(error.details[0].message);
-    const token = await req.headers('auth-token');
+    const token = await req.header('auth-token');
     const verify = await jwt.verify(token, process.env.JWT_KEY);
     const user = await User.findById(verify._id);
     if (user) {
       const note = await Note.findById(id);
       if (note) {
-        if (user._id === note.creator) {
+        if (user.id == note.creator) {
           note.body = body;
           note.tags = tags;
           await note.save();

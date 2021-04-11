@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 import express from 'express';
@@ -6,6 +7,7 @@ import auth from '../middlewares/auth';
 import User from '../models/user';
 import Tasks from '../models/tasks';
 import Task from '../models/task';
+import { taskValidation } from '../configs/tasks';
 
 const router = express.Router();
 
@@ -13,13 +15,15 @@ router.post('/new/:id', auth, async (req, res) => {
   const { id } = req.params;
   const { name, dueDate, status } = req.body;
   try {
+    const { error } = taskValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
     const token = await req.header('auth-token');
     const verify = await jwt.verify(token, process.env.JWT_KEY);
     const user = await User.findById(verify._id);
     if (user) {
       const tasks = await Tasks.findById(id);
       if (tasks) {
-        if (tasks.creator === user._id) {
+        if (tasks.creator == user.id) {
           const newTask = new Task({
             task: id,
             name,
@@ -41,10 +45,12 @@ router.post('/new/:id', auth, async (req, res) => {
   }
 });
 
-router.post('/update/:id', auth, async (req, res) => {
+router.put('/update/:id', auth, async (req, res) => {
   const { id } = req.params;
   const { name, dueDate, status } = req.body;
   try {
+    const { error } = taskValidation(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
     const token = await req.header('auth-token');
     const verify = await jwt.verify(token, process.env.JWT_KEY);
     const user = await User.findById(verify._id);
@@ -53,10 +59,10 @@ router.post('/update/:id', auth, async (req, res) => {
       if (task) {
         const tasks = await Tasks.findById(task.task);
         if (tasks) {
-          if (tasks.creator === user._id) {
+          if (tasks.creator == user.id) {
             task.name = name;
-            tasks.dueDate = dueDate;
-            tasks.status = status;
+            task.dueDate = dueDate;
+            task.status = status;
             await task.save();
             return res
               .status(200)
@@ -87,7 +93,7 @@ router.post('/delete/:id', auth, async (req, res) => {
       if (task) {
         const tasks = await Tasks.findById(task.task);
         if (tasks) {
-          if (tasks.creator === user._id) {
+          if (tasks.creator == user.id) {
             await task.remove();
             // eslint-disable-next-line no-plusplus
             tasks.tasksLength--;

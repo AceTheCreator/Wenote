@@ -9,11 +9,11 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import "@pathofdev/react-tag-input/build/index.css";
 import {connect} from "react-redux";
 import {useHistory} from 'react-router-dom';
-import {note, createNote, updateNote, getNote} from "../../actions/note";
+import {note, createNote, updateNote, getNote, getAllNotes} from "../../actions/note";
 import { EditorContainer, EditorFooter, SaveButton, SaveWrapper, SelectNote, TagWrapper } from './note.style';
 import roll from "../../static/rolling.svg";
 
-function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote}) {
+function Note({noteId, note, createNote, token, updateNote, getNote, getAllNotes, fetchNote}) {
     const history = useHistory();
     const [id, setId] = useState(null);
     const [tags, setTags] = useState([]);
@@ -23,18 +23,21 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
     });
     const [editorState, setEditorState] = useState(EditorState.createEmpty())
     const {pathname} = history.location;
+    const urlId = pathname.split("/")[2];
     useEffect(() => {
-        const urlId = pathname.split('/')[2];
         if(pathname.includes('new') || noteId === 'new'){
             setId('new')
-        }else if(noteId !== null){
+        }else if(noteId){
             setId(noteId);
             getNote(noteId);
+        }else if(urlId){
+            setId(urlId);
+            getNote(urlId);
         }
     },[pathname, noteId]);
 
     useEffect(() => {
-        if(noteId !== null){
+        if(noteId || urlId){
             if(fetchNote.note){
                 if(fetchNote.note.body){
                 const contentState = convertFromRaw(JSON.parse(fetchNote.note.body));
@@ -55,7 +58,6 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
             body: convertToRaw(editorState.getCurrentContent()),
             tags: tags,
         }
-        console.log(data.body)
         setEditorState(editorState);
         note(data);
         setSave({
@@ -77,7 +79,6 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
             saving: true,
         });
         const body = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
-        console.log(body);
         if(id === "new"){
             createNote(token, body, tags).then((res) => {
                 setSave({
@@ -101,6 +102,7 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
                     saving: false,
                 });
               callAlert("success", "Note successfully saved")
+              getAllNotes(token);
             }).catch((error) => {
                 setSave({
                     disable: false,
@@ -154,7 +156,7 @@ function Note({noteId, note, createNote, token, updateNote, getNote, fetchNote})
         <h2>Oooops!!! {fetchNote.error}</h2>
         </SelectNote>
     }
-    if(!noteId){
+    if(!noteId && !urlId){
         view = <SelectNote>
         <h2>Select an existing note or create a new one to get started</h2>
         </SelectNote>
@@ -169,7 +171,8 @@ Note.PropTypes = {
     token: PropTypes.string.isRequired,
     updateNote: PropTypes.func.isRequired,
     getNote: PropTypes.func,
-    fetchNote: PropTypes.object.isRequired
+    fetchNote: PropTypes.object.isRequired,
+    getAllNotes: PropTypes.func,
 };
 
 function mapStateToProps(state){
@@ -178,4 +181,4 @@ function mapStateToProps(state){
         fetchNote: state.getNote
     }
 }
-export default connect(mapStateToProps, {note, createNote, updateNote, getNote})(Note);
+export default connect(mapStateToProps, {note, getAllNotes, createNote, updateNote, getNote})(Note);

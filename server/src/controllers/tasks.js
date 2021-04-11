@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 /* eslint-disable consistent-return */
 /* eslint-disable no-underscore-dangle */
 import express from 'express';
@@ -11,30 +12,7 @@ import { tasksValidation } from '../configs/tasks';
 
 const router = express.Router();
 
-router.get('/tasks/:id', auth, async (req, res) => {
-  const { id } = req.params;
-  try {
-    const token = await req.header('auth-token');
-    const verify = await jwt.verify(token, process.env.JWT_KEY);
-    const user = await User.findById(verify._id);
-    if (user) {
-      const tasks = await Tasks.findById(id);
-      if (tasks) {
-        if (tasks.creator === user._id) {
-          const allTasks = await Task.find({ task: tasks.id });
-          return res.status(200).send(allTasks);
-        }
-        return res.status(401).send('you\'re not authorized to perform this request');
-      }
-      return res.status(404).send('can\'t find this tasks');
-    }
-    return res.status(400).send("can't find this user");
-  } catch (error) {
-    return res.status(500).send(error);
-  }
-});
-
-router.get('/tasks', auth, async (req, res) => {
+router.get('/all', auth, async (req, res) => {
   try {
     const token = await req.header('auth-token');
     const verify = await jwt.verify(token, process.env.JWT_KEY);
@@ -44,9 +22,33 @@ router.get('/tasks', auth, async (req, res) => {
       if (!emptyChecker(tasks)) {
         return res.status(200).send(tasks);
       }
-      return res.status(204).send('you don\'t have any tasks yet');
+      return res.status(204).send("you don't have any tasks yet");
     }
-    return res.status(400).send('can\'t find this user');
+    return res.status(400).send("can't find this user");
+  } catch (error) {
+    return res.status(500).send(error);
+  }
+});
+
+router.get('/:id', auth, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const token = await req.header('auth-token');
+    const verify = await jwt.verify(token, process.env.JWT_KEY);
+    const user = await User.findById(verify._id);
+    if (user) {
+      const tasks = await Tasks.findById(id);
+      if (tasks) {
+        // eslint-disable-next-line eqeqeq
+        if (user.id == tasks.creator) {
+          const allTasks = await Task.find({ task: tasks.id });
+          return res.status(200).send(allTasks);
+        }
+        return res.status(401).send('you\'re not authorized to perform this request');
+      }
+      return res.status(404).send('can\'t find this tasks');
+    }
+    return res.status(400).send("can't find this user");
   } catch (error) {
     return res.status(500).send(error);
   }
@@ -93,7 +95,7 @@ router.post('/update/:id', auth, async (req, res) => {
     if (user) {
       const tasks = await Tasks.findById(id);
       if (tasks) {
-        if (tasks.creator === user._id) {
+        if (tasks.creator == user.id) {
           tasks.title = title;
           tasks.description = description;
           await tasks.save();
@@ -120,7 +122,7 @@ router.delete('/delete/:id', auth, async (req, res) => {
     if (user) {
       const tasks = await Tasks.findById(id);
       if (tasks) {
-        if (tasks.creator === user._id) {
+        if (tasks.creator == user.id) {
           await Task.removeMany({ task: tasks._id });
           await tasks.remove();
           return res.status(200).send('tasks successfully deleted');
